@@ -1,137 +1,120 @@
+#include "GameObject.h"
 #include <iostream>
 #include <string>
-
 using namespace std;
 
-class GameObject {
-private:
+// global functions-------------------------------------------------------------
+void CreateCharacter(Player*& p)
+{
+    int n;
+    string s;
+    while (true)
+    {
+        cout << "Choose your character type (input 1 for Knight / 2 for Wizard): ";
+        cin >> n;
+        cin.ignore();
+        if (n == 1 || n == 2)
+            break;
+        cout << "Invalid choice.\n";
+    }
+    if (p != nullptr)
+        delete p;
+    p = (n == 1) ? (Player*)new Knight{} : (Player*)new Wizard{};
+    cout << "What is your character's name: ";
+    getline(cin, s);
+    p->set_name(s);
+    cout << "\nYou can view your character's info from the main menu!\n\n";
+}
+void ViewCharacter(Player*& p)
+{
+    if (p == nullptr)
+        cout << "A character must be created first.\n\n";
+    else
+        cout << *(p);
+}
+void BattleSimulate(Player*& p, Enemy*& e)
+{
+    int n;
+    do {
+        cout << "Are you ready to witness an epic battle (input 1 for Yes / 0 for No): ";
+        cin >> n;
+        cin.ignore();
+        if (n == 0 || n == 1)
+            break;
+        cout << "Invalid choice.\n";
+    } while (n != 0);
+    cout << endl;
 
+    if (n == 0)
+        return;
 
-public:
-	virtual void NormalAttack() = 0;
+    if (p == nullptr)
+    {
+        cout << "A character must be created first.\n\n";
+        return;
+    }
 
+    int r = rand() % 2; // returns 0 or 1
+    if (e != nullptr)
+        delete e;
+    e = (r == 0) ? (Enemy*)new Orc{} : (Enemy*)new Undead{};
+    printf("          you encountered an %s with %f health...\n", e->get_type().c_str(), e->get_health());
+    printf("          The %s taunts you!\n", e->get_type().c_str());
+    printf("          You fight back!\n");
+    printf("          The %s taunts you!\n", e->get_type().c_str());
+    printf("          You use a special move!\n");
+    printf("          The %s attacks!\n", e->get_type().c_str());
+    printf("          The %s attacks!\n", e->get_type().c_str());
+    printf("          You use a special move!\n");
+    printf("          The %s taunts you!\n", e->get_type().c_str());
+    printf("          You use a special move!\n");
+    printf("          You have killed the enemy!\n");
+    printf("          You are the winner of this battle!\n\n");
+}
 
+// entry point-------------------------------------------------------------
+int main()
+{
+    Player* player = nullptr;
+    Enemy* enemy = nullptr;
 
+    int choice;
+    do {
+        cout << "-------------------------------------\n";
+        cout << "    Welcome to Battle Simulator!\n";
+        cout << "-------------------------------------\n";
+        cout << "1. Create Character\n";
+        cout << "2. View Character Info\n";
+        cout << "3. Start Battle!\n";
+        cout << "0. Exit\n\n";
+        cout << "Please enter your choice: ";
+        cin >> choice;
+        cin.ignore();
+        cout << endl;
+        switch (choice)
+        {
+        case 1: {
+            CreateCharacter(player);
+            break;
+        }
+        case 2: {
+            ViewCharacter(player);
+            break;
+        }
+        case 3: {
+            BattleSimulate(player, enemy);
+            break;
+        }
+        case 0:
+            break;
+        }
+    } while (choice != 0);
+
+    if (player != nullptr)
+        delete player;
+    if (enemy != nullptr)
+        delete enemy;
+    player = nullptr;
+    enemy = nullptr;
+    return 0;
 };
-
-class Player : GameObject {
-private:
-	string name;
-	int health;
-
-
-public:
-
-	int get_health() { return health; }
-	void set_health(int v) { health = v; }
-
-	string get_name() { return name; }
-	void set_name(string n) { name = n; }
-
-	virtual void SpecialAttack() = 0;
-
-	void NormalAtack() {
-
-	}
-
-
-
- };
-
-class Wizard : Player {
-private:
-	static string specialAttack;
-	int specialDamage;
-
-
-public:
-	
-	void SpecialAttack() {
-
-	}
-
-
-};
-
-class Knight : Player {
-private:
-	static string specialAttack;
-	int specialDamage;
-
-
-public:
-	void SpecialAttack() {
-
-	}
-
-
-
-};
-
-class Enemy : GameObject {
-private:
-	int health;
-
-
-public:
-
-	int get_health() { return health; }
-	void set_health(int v) { health = v; }
-
-	virtual void TauntPlayer() = 0;
-
-	void NormalAtack() {
-
-	}
-
-
-
-};
-
-class Orc : Enemy {
-private:
-	static string speciesName;
-	string taunts[3] = { "Meat's back on the menu boys!", "You're not wanted here!", "RRRAAAAAAAAAAAAAAAAARRRRRGGGG!" };
-
-
-public:
-	void TauntPlayer() {
-
-	}
-
-
-};
-
-class Undead : Enemy {
-private:
-	static string speciesName;
-	string taunts[3] = { "BRAAAAIIIINNNNSSS!", "Away! Away!", "UUUGGGGHHHHH!" };
-
-
-public:
-	void TauntPlayer() {
-
-	}
-
-
-};
-
-int main() {
-	// Here are just some prewritten print statements i made to save time.
-	//printf("Welcome to battle simulation!");
-	//printf("Would you like to play as a Wizard or a Knight?");
-	//printf("What is your characters name");
-	//printf("%n is a %c with %h health"); //%n is the name, %c is the class, %h is the health value
-	//printf("Are you ready to witness an epic battle?");
-	//printf("you are fighting a(n) %c with %h health"); //%c is the enemy class, %h is the enemy health value
-	//printf("The %c taunts you!"); //%c is the enemy class
-	//printf("You fight back!");
-	//printf("You use a special move!");
-	//printf("The enemy fights!");
-	//printf("You have killed the enemy!");
-	//printf("You are the winner of this battle!");
-	
-
-	return 0;
-};
-
