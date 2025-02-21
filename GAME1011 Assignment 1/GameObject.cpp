@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include <cstdlib>
 #include <iostream>
 #include <string>
 
@@ -18,17 +19,25 @@ ostream& operator<<(ostream& out, const Player& player)
 }
 
 // Wizard-------------------------------------------------------------
-void Wizard::SpecialAttack() {}
+void Wizard::SpecialAttack() { cout << "\n              \"Fire Ball!!!\"\n\n"; }
 
 // Knight-------------------------------------------------------------
-void Knight::SpecialAttack() {}
+void Knight::SpecialAttack() { cout << "\n              \"Power Smash!!!\"\n\n"; }
 
 // Enemy-------------------------------------------------------------
 void Enemy::NormalAttack() {}
 Enemy::~Enemy() {}
 
 // Orc-------------------------------------------------------------
-void Orc::TauntPlayer() {}
+void Orc::TauntPlayer()
+{
+    int r = rand() % 3;
+    cout << "\n              \"" << taunts[r] << "\"" << endl << endl;
+}
 
 // Undead-------------------------------------------------------------
-void Undead::TauntPlayer() {}
+void Undead::TauntPlayer()
+{
+    int r = rand() % 3;
+    cout << "\n              \"" << taunts[r] << "\"" << endl << endl;
+}
