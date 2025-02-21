@@ -29,6 +29,7 @@ void Enemy::NormalAttack() {}
 Enemy::~Enemy() {}
 
 // Orc-------------------------------------------------------------
+string Orc::speciesName = "Orc";
 void Orc::TauntPlayer()
 {
     int r = rand() % 3;
@@ -36,6 +37,7 @@ void Orc::TauntPlayer()
 }
 
 // Undead-------------------------------------------------------------
+string Undead::speciesName = "Undead";
 void Undead::TauntPlayer()
 {
     int r = rand() % 3;

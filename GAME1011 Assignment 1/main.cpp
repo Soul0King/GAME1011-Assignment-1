@@ -61,19 +61,20 @@ void BattleSimulate(Player*& p, Enemy*& e)
     if (e != nullptr)
         delete e;
     e = (r == 0) ? (Enemy*)new Orc{} : (Enemy*)new Undead{};
-    printf("          you encountered an %s with %0.0f health...\n", e->get_type().c_str(), e->get_health());
-    printf("          The %s taunts you:\n", e->get_type().c_str());
+    string eType = (typeid(*e) == typeid(Orc)) ? Orc::speciesName : Undead::speciesName;
+    printf("          you encountered an %s with %0.0f health...\n", eType.c_str(), e->get_health());
+    printf("          The %s taunts you:\n", eType.c_str());
     e->TauntPlayer();
     printf("          You fight back!\n");
-    printf("          The %s taunts you:\n", e->get_type().c_str());
+    printf("          The %s taunts you:\n", eType.c_str());
     e->TauntPlayer();
     printf("          You use a special move:\n");
     p->SpecialAttack();
-    printf("          The %s attacks!\n", e->get_type().c_str());
-    printf("          The %s attacks!\n", e->get_type().c_str());
+    printf("          The %s attacks!\n", eType.c_str());
+    printf("          The %s attacks!\n", eType.c_str());
     printf("          You use a special move:\n");
     p->SpecialAttack();
-    printf("          The %s taunts you:\n", e->get_type().c_str());
+    printf("          The %s taunts you:\n", eType.c_str());
     e->TauntPlayer();
     printf("          You use a special move:\n");
     p->SpecialAttack();
